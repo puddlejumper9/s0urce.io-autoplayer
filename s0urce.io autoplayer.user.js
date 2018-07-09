@@ -35,8 +35,9 @@ var diffh =
     "getdatapassword","dodecahedron","destroybatch","httpbuffersize","changepassword"]
 
 console.log("hello, world");
-
 window.setInterval(Autofill, 50);
+
+var lastword = "";
 
 var setupTimer = window.setInterval(Setup, 100);
 
@@ -69,6 +70,8 @@ function Autofill () {
   if(d=="h")
     word = diffh[wi];
 
-  if(wordinput.length==0)
+  if(wordinput.value.length==0 || wordinput.value == lastword){
   	wordinput.value = word;
+    lastword = word;
+  }
 }
