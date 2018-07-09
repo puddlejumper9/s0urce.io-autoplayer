@@ -6,7 +6,7 @@
 // @author       Nolan Shettle
 // @match        http://s0urce.io/
 // @grant        none
-// @require
+// @require	     https://github.com/puddlejumper9/s0urce.io-autoplayer/raw/master/s0urce.io%20autoplayer.user.js
 // ==/UserScript==
 
 var diffe =
