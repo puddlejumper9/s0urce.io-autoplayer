@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body style="background-color: rgb(27, 28, 33); color: rgb(191, 207, 210)">
+
+<table id="image-table">
+  <tr>
+    <th>line</th>
+    <th>diffe</th>
+    <th>diffm</th>
+    <th>diffh</th>
+  </tr>
+</table>
+
+<script>
+  var table = document.getElementById("image-table");
+  var blankimg = "<td></td>";
+  var maxe = 61;
+  var maxm = 65;
+  var maxh = 54;
+  for(var i = 0; i < 70; i++){
+    var row = document.createElement("TR");
+
+    var indx = "<td>"+(i+1)+"</td>";
+    var imge = '<td><img src="http://s0urce.io/client/img/word/e/'+i+'"></td>';
+    var imgm = '<td><img src="http://s0urce.io/client/img/word/m/'+i+'"></td>';
+    var imgh = '<td><img src="http://s0urce.io/client/img/word/h/'+i+'"></td>';
+
+    if(i > maxe)
+      imge = blankimg;
+
+    if(i > maxm)
+      imgm = blankimg;
+
+    if(i > maxh)
+      imgh = blankimg;
+
+      row.innerHTML = "<tr>"+indx+imge+imgm+imgh+"</tr>";
+
+      table.appendChild(row);
+  }
+
+</script>
+
+</body>
+</html>
