@@ -27,7 +27,7 @@ var diffm =
     "constructor","disconnect","hostserver","decryptfile","getfile","hexagon"];
 
 var diffh =
-   ["setnewproxy","blockthreat","removeoldcookie","fileexpresslog","removenewcookie","deteleallids","create2axisvector","uploaduserstats","encryptunpackedbatch","generatecodepack",
+   ["setnewproxy","blockthreat","removeoldcookie","fileexpresslog","removenewcookie","deleteallids","create2axisvector","uploaduserstats","encryptunpackedbatch","generatecodepack",
     "getxmlprotocol","statusofprocess","ghostfilesystem","wordcounter","sizeofhexagon","checkhttptype","emitconfiglist","systemgridtype","unpacktmpfile","loadloggedpassword",
     "respondertimeout","getmysqldomain","createnewpackage","decryptdatabatch","loadregisterlist","callmodule","encodenewfolder","eventlistdir","sendintelpass","patcheventlog",
     "includedirectory","mergesocket","systemportkey","channelsetpackage","batchallfiles","disconnectchannel","create3axisvector","getpartoffile","createfilethread","getfirewallchannel",
@@ -36,8 +36,6 @@ var diffh =
 
 window.setInterval(Autoplay, 100);
 var setupTimer = window.setInterval(SetupDelay, 100);
-
-var lastword = "";
 
 function SetupDelay () {
     if(document.getElementById("game-page").style.display=="none")
@@ -81,25 +79,54 @@ function Setup () {
   minerwindow.style.display = "";
 }
 
+var lastword = "";
+var lastport = 0;
+
 function Autoplay () {
   var word = GetWord();
-  var filledword = GetFilledWord();
 
+  if(CanAuto()){
+    if(IsBlankWord()){
+      OpenNextPort();
+    }
 
-  if(word != ""){
-    if(filledword == "" || filledword == lastword){
+    // do not fill if word is unknown
+    if(word != ""){
       FillWord(word);
       lastword = word;
     }
   }
 }
 
-function GetWord () {
-	var wordimg = document.getElementById("tool-type").firstElementChild;
+function IsBlankWord() {
+  return GetWordSrcStr() == "../client/img/words/template.png";
+}
 
-  var src = wordimg.getAttribute("src").split("/");
-  var d = src[4];
-  var wi = src[5];
+function CanAuto() {
+  var filledword = GetFilledWord();
+         // only if input is blank
+                             // or if the word is the last automatically filled word
+  return filledword == "" || filledword == lastword;
+}
+
+function OpenNextPort() {
+  var portButton = document.getElementById("window-other-port"+(lastport+1));
+  portButton.click();
+
+  FocusWordInput();
+
+  lastport = (lastport + 1) % 3;
+}
+
+function GetWordSrcStr () {
+  var wordimg = document.getElementById("tool-type").firstElementChild;
+  return wordimg.getAttribute("src");
+}
+
+function GetWord () {
+  var srcparts = GetWordSrcStr().split("/");
+  var d = srcparts[4];
+  var wi = srcparts[5];
 
   var word = "";
 
@@ -113,6 +140,10 @@ function GetWord () {
     word = diffh[wi];
 
   return word;
+}
+
+function FocusWordInput() {
+  GetWordInput().focus();
 }
 
 function GetWordInput() {
