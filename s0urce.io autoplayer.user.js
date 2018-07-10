@@ -34,7 +34,8 @@ var diffh =
     "bufferpingset","hostnewserver","joinnetworkclient","loadaltevent","createnewsocket","tempdatapass","exportconfigpackage","disconnectserver","changeusername","rootcookieset",
     "getdatapassword","dodecahedron","destroybatch","httpbuffersize","changepassword"]
 
-window.setInterval(Autoplay, 100);
+var AutoplayDelay = 20;
+window.setInterval(Autoplay, AutoplayDelay);
 var setupTimer = window.setInterval(SetupDelay, 100);
 
 function SetupDelay () {
@@ -81,8 +82,14 @@ function Setup () {
 
 var lastword = "";
 var lastport = 0;
+var cooldown = 0;
 
 function Autoplay () {
+  if(cooldown > 0){
+    cooldown -= AutoplayDelay;
+    return;
+  }
+
   var word = GetWord();
 
   if(SuccessWindowShown()){
@@ -98,6 +105,7 @@ function Autoplay () {
     }
 
     OpenNextPort();
+    cooldown = 100;
     return;
   }
 
