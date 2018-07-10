@@ -109,9 +109,12 @@ function CanAuto() {
   return filledword == "" || filledword == lastword;
 }
 
+function GetPortButton(port) {
+  return document.getElementById("window-other-port"+(port));
+}
+
 function OpenNextPort() {
-  var portButton = document.getElementById("window-other-port"+(lastport+1));
-  portButton.click();
+  GetPortButton(lastport+1).click();
 
   FocusWordInput();
 
