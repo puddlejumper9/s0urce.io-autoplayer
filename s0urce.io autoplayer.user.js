@@ -82,7 +82,7 @@ function Setup () {
 }
 
 function Autoplay () {
-
+  Autofill();
 }
 
 function Autofill () {
