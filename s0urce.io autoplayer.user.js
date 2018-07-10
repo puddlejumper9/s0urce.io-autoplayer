@@ -90,6 +90,11 @@ function Autoplay () {
     return;
   }
 
+  if(IsElementShown("login-page")){
+    ClickElement("login-play");
+    return;
+  }
+
   var word = GetWord();
 
   if(SuccessWindowShown()){
