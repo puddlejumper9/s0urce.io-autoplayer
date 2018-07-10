@@ -92,6 +92,7 @@ function Autoplay () {
 
   if(IsElementShown("login-page")){
     ClickElement("login-play");
+    cooldown = 200;
     return;
   }
 
@@ -109,9 +110,11 @@ function Autoplay () {
       return
     }
 
-    OpenNextPort();
-    cooldown = 100;
-    return;
+    if(IsElementShown("window-other")){
+      OpenNextPort();
+      cooldown = 100;
+      return;
+    }
   }
 
   if(CanAuto()){
