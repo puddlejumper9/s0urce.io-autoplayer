@@ -35,19 +35,51 @@ var diffh =
     "getdatapassword","dodecahedron","destroybatch","httpbuffersize","changepassword"]
 
 window.setInterval(Autofill, 50);
+var setupTimer = window.setInterval(SetupDelay, 100);
 
 var lastword = "";
 
-var setupTimer = window.setInterval(Setup, 100);
+function SetupDelay () {
+    if(document.getElementById("game-page").style.display=="none")
+      return;
+
+    window.setTimeout(Setup, 100);
+    clearInterval(setupTimer);
+}
 
 function Setup () {
-  if(document.getElementById("game-page").style.display=="none")
-    return;
+  var listwindow = document.getElementById("window-list");
+  listwindow.style.top = "90px";
+  listwindow.style.left = "260px";
 
-	var logwindow = document.getElementById("window-log");
+  var targetwindow = document.getElementById("window-other");
+  targetwindow.style.top = "90px";
+  targetwindow.style.left = "540px";
+
+  var cdmwindow = document.getElementById("window-tool");
+  cdmwindow.style.top = "90px";
+  cdmwindow.style.left = "860px";
+
+  var logwindow = document.getElementById("window-log");
   logwindow.children[1].style.height = "900px";
+  logwindow.style.top = "90px";
+  logwindow.style.left = "1430px";
 
-  clearInterval(setupTimer);
+  var chatwindow = document.getElementById("window-chat");
+  chatwindow.style.top = "660px";
+  chatwindow.style.left = "100px";
+  chatwindow.style.display = "";
+
+  var pcwindow = document.getElementById("window-computer");
+  pcwindow.style.top = "660px";
+  pcwindow.style.left = "480px";
+  pcwindow.style.display = "";
+
+  var minerwindow = document.getElementById("window-miner");
+  minerwindow.style.top = "550px";
+  minerwindow.style.left = "1080px";
+  minerwindow.style.display = "";
+
 }
 
 function Autofill () {
