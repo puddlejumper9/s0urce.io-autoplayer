@@ -34,7 +34,6 @@ var diffh =
     "bufferpingset","hostnewserver","joinnetworkclient","loadaltevent","createnewsocket","tempdatapass","exportconfigpackage","disconnectserver","changeusername","rootcookieset",
     "getdatapassword","dodecahedron","destroybatch","httpbuffersize","changepassword"]
 
-console.log("hello, world");
 window.setInterval(Autofill, 50);
 
 var lastword = "";
