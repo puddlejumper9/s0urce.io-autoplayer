@@ -53,6 +53,7 @@ function Setup () {
 function Autofill () {
 	var wordimg = document.getElementById("tool-type").firstElementChild;
   var wordinput = document.getElementById("tool-type-word");
+  var wordform = document.getElementById("tool-type-form");
 
   var src = wordimg.getAttribute("src").split("/");
   var d = src[4];
