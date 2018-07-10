@@ -69,7 +69,7 @@ function Autofill () {
   if(d=="h")
     word = diffh[wi];
 
-  if(wordinput.value.length==0 || wordinput.value == lastword){
+  if(word != "" && wordinput.value.length==0 || wordinput.value == lastword){
   	wordinput.value = word;
     lastword = word;
   }
