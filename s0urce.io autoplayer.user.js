@@ -34,7 +34,7 @@ var diffh =
     "bufferpingset","hostnewserver","joinnetworkclient","loadaltevent","createnewsocket","tempdatapass","exportconfigpackage","disconnectserver","changeusername","rootcookieset",
     "getdatapassword","dodecahedron","destroybatch","httpbuffersize","changepassword"]
 
-window.setInterval(Autofill, 50);
+window.setInterval(Autoplay, 100);
 var setupTimer = window.setInterval(SetupDelay, 100);
 
 var lastword = "";
@@ -79,6 +79,9 @@ function Setup () {
   minerwindow.style.top = "550px";
   minerwindow.style.left = "1080px";
   minerwindow.style.display = "";
+}
+
+function Autoplay () {
 
 }
 
