@@ -87,15 +87,31 @@ function Autoplay () {
 
   if(CanAuto()){
     if(IsBlankWord()){
-      OpenNextPort();
-    }
+  if(SuccessWindowShown()){
+    CloseSuccessWindow();
+    return;
+  }
 
+  if(IsBlankWord()){
+    OpenNextPort();
+    return;
+  }
+
+  if(CanAuto()){
     // do not fill if word is unknown
     if(word != ""){
       FillWord(word);
       lastword = word;
     }
   }
+}
+
+function CloseSuccessWindow() {
+  document.getElementById("targetmessage-button-send").click();
+}
+
+function SuccessWindowShown() {
+  return document.getElementById("topwindow-success").style.display != "none";
 }
 
 function IsBlankWord() {
