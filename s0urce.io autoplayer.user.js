@@ -85,14 +85,18 @@ var lastport = 0;
 function Autoplay () {
   var word = GetWord();
 
-  if(CanAuto()){
-    if(IsBlankWord()){
   if(SuccessWindowShown()){
     CloseSuccessWindow();
     return;
   }
 
   if(IsBlankWord()){
+
+    if(HackButtonShown()){
+      ClickHackButton();
+      return
+    }
+
     OpenNextPort();
     return;
   }
@@ -104,14 +108,32 @@ function Autoplay () {
       lastword = word;
     }
   }
+
+  FocusWordInput();
+}
+
+function HackButtonShown() {
+  return IsElementShown("window-other-button");
+}
+
+function ClickHackButton() {
+  ClickElement("window-other-button");
+}
+
+function ClickElement(elementID) {
+  document.getElementById(elementID).click();
 }
 
 function CloseSuccessWindow() {
-  document.getElementById("targetmessage-button-send").click();
+  ClickElement("targetmessage-button-send");
 }
 
 function SuccessWindowShown() {
-  return document.getElementById("topwindow-success").style.display != "none";
+  return IsElementShown("topwindow-success");
+}
+
+function IsElementShown(elementID) {
+  return document.getElementById(elementID).style.display != "none";
 }
 
 function IsBlankWord() {
@@ -125,12 +147,12 @@ function CanAuto() {
   return filledword == "" || filledword == lastword;
 }
 
-function GetPortButton(port) {
-  return document.getElementById("window-other-port"+(port));
+function ClickPortButton(port) {
+  ClickElement("window-other-port"+port);
 }
 
 function OpenNextPort() {
-  GetPortButton(lastport+1).click();
+  ClickPortButton(lastport+1);
 
   FocusWordInput();
 
