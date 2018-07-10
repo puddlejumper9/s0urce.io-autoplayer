@@ -82,13 +82,20 @@ function Setup () {
 }
 
 function Autoplay () {
-  Autofill();
+  var word = GetWord();
+  var filledword = GetFilledWord();
+
+
+  if(word != ""){
+    if(filledword == "" || filledword == lastword){
+      FillWord(word);
+      lastword = word;
+    }
+  }
 }
 
-function Autofill () {
+function GetWord () {
 	var wordimg = document.getElementById("tool-type").firstElementChild;
-  var wordinput = document.getElementById("tool-type-word");
-  var wordform = document.getElementById("tool-type-form");
 
   var src = wordimg.getAttribute("src").split("/");
   var d = src[4];
@@ -105,8 +112,23 @@ function Autofill () {
   if(d=="h")
     word = diffh[wi];
 
-  if(word != "" && wordinput.value.length==0 || wordinput.value == lastword){
-  	wordinput.value = word;
-    lastword = word;
-  }
+  return word;
+}
+
+function GetWordInput() {
+  return document.getElementById("tool-type-word");
+}
+
+function GetFilledWord() {
+  return GetWordInput().value;
+}
+
+function FillWord(word) {
+  GetWordInput().value = word;
+}
+
+function SubmitWord() {
+  var wordform = document.getElementById("tool-type-form");
+
+  // TODO make work
 }
