@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         s0urce.io-autoplayer
-// @namespace    http://tampermonkey.net/
-// @version      0.1
+// @namespace    nolanjshettle@gmail.com
+// @version      0.9
 // @description  play s0urce.io automatically
 // @author       Nolan Shettle
 // @match        http://s0urce.io/
@@ -14,8 +14,11 @@ var wordlists =
 "h":["checkhttptype","uploaduserstats","disconnectserver","disconnectchannel","rootcookieset","getfirewallchannel","loadaltevent","mergesocket","getxmlprotocol","loadregisterlist","getpartoffile","tempdatapass","bufferpingset","removeoldcookie","unpacktmpfile","decryptdatabatch","systemgridtype","createnewpackage","httpbuffersize","joinnetworkclient","callmodule","createnewsocket","ghostfilesystem","create3axisvector","setnewproxy","includedirectory","encryptunpackedbatch","destroybatch","patcheventlog","loadloggedpassword","fileexpresslog","getdatapassword","dodecahedron","exportconfigpackage","sendintelpass","emitconfiglist","batchallfiles","encodenewfolder","create2axisvector","getmysqldomain","statusofprocess","blockthreat","removenewcookie","sizeofhexagon","deleteallids","changeusername","wordcounter","eventlistdir","hostnewserver","changepassword","createfilethread","respondertimeout","systemportkey","channelsetpackage","generatecodepack",],
 };
 
+var AutoplayDelay = 100;
 window.setInterval(Autoplay, AutoplayDelay);
 var setupTimer = window.setInterval(SetupDelay, 100);
+
+var wordtries = 0;
 
 function SetupDelay () {
     if(document.getElementById("game-page").style.display=="none")
@@ -62,8 +65,12 @@ function Setup () {
 var lastword = "";
 var lastport = 0;
 var cooldown = 0;
+var submitcooldown = 0;
 
 function Autoplay () {
+  if(submitcooldown > 0)
+    submitcooldown -= AutoplayDelay;
+
   if(cooldown > 0){
     cooldown -= AutoplayDelay;
     return;
@@ -75,14 +82,31 @@ function Autoplay () {
     return;
   }
 
-  var word = GetWord();
+  // auto select highest ranked player until we see #1
+  if(GetTopShownPlayerRank() != "1" && !IsSelectedPlayerTop()){
+    ClickTopRankedPlayer();
+    cooldown = 100;
+    return;
+  }
 
   if(SuccessWindowShown()){
     CloseSuccessWindow();
     return;
   }
 
-  if(IsBlankWord()){
+  if(IsWordWrong())
+  {
+    if(wordtries < 1){
+      wordtries++;
+      cooldown = 500;
+    } else {
+      lastport--;
+      OpenNextPort();
+      return;
+    }
+  }
+
+  if(IsBlankWord() || !IsElementShown("window-tool")){
 
     if(HackButtonShown()){
       ClickHackButton();
@@ -91,20 +115,56 @@ function Autoplay () {
 
     if(IsElementShown("window-other")){
       OpenNextPort();
-      cooldown = 100;
       return;
     }
   }
 
+  var word = GetWord();
   if(CanAuto()){
     // do not fill if word is unknown
     if(word != ""){
       FillWord(word);
       lastword = word;
     }
-  }
 
-  FocusWordInput();
+    if(submitcooldown <= 0){
+      SubmitWord();
+      submitcooldown = 550;
+    }
+  }
+}
+
+function ChatHasFocus() {
+  return document.activeElement == document.getElementById("chat-input");
+}
+
+function IsWordWrong() {
+  var backcolor = document.getElementById("tool-type").style["background-color"];
+  return backcolor != "rgb(96, 230, 163)" && backcolor != "";
+}
+
+function GetSelectedPlayer() {
+  return document.getElementById("window-other-playername").innerHTML;
+}
+
+function IsSelectedPlayerTop() {
+  return GetTopRankedPlayerName() == GetSelectedPlayer();
+}
+
+function ClickTopRankedPlayer(){
+  GetPlayerList()[0].click();
+}
+
+function GetTopRankedPlayerName(){
+  return GetPlayerList()[0].children[1].children[2].innerHTML;
+}
+
+function GetPlayerList(){
+  return document.getElementById("player-list").children;
+}
+
+function GetTopShownPlayerRank() {
+  return document.getElementById("player-list").firstElementChild.firstElementChild.firstElementChild.innerHTML;
 }
 
 function HackButtonShown() {
@@ -135,11 +195,11 @@ function IsBlankWord() {
   return GetWordSrcStr() == "../client/img/words/template.png";
 }
 
-function CanAuto() {
+function CanAuto(word) {
   var filledword = GetFilledWord();
          // only if input is blank
                              // or if the word is the last automatically filled word
-  return filledword == "" || filledword == lastword;
+  return filledword == "" || filledword == lastword || filledword == word;
 }
 
 function ClickPortButton(port) {
@@ -147,11 +207,12 @@ function ClickPortButton(port) {
 }
 
 function OpenNextPort() {
+  lastport = (lastport + 1) % 3;
+
   ClickPortButton(lastport+1);
 
-  FocusWordInput();
-
-  lastport = (lastport + 1) % 3;
+  cooldown = 100;
+  wordtries = 0;
 }
 
 function GetWordSrcStr () {
@@ -171,10 +232,6 @@ function GetWord () {
   return word;
 }
 
-function FocusWordInput() {
-  GetWordInput().focus();
-}
-
 function GetWordInput() {
   return document.getElementById("tool-type-word");
 }
@@ -190,5 +247,5 @@ function FillWord(word) {
 function SubmitWord() {
   var wordform = document.getElementById("tool-type-form");
 
-  // TODO make work
+  $("#tool-type-form").trigger("submit");
 }
