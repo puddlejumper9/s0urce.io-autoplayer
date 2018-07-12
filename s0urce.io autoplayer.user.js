@@ -8,33 +8,12 @@
 // @grant        none
 // ==/UserScript==
 
-var diffe =
-   ["data","part","loop","xml","list","load","user","port","emit","intel",
-    "socket","get","bytes","ghost","delete","send","anon","add","type","point",
-    "event","net","add","client","status","system","val","join","poly","init",
-    "num","domain","url","log","dir","count","remove","upload","handle","ping",
-    "temp","reset","write","key","info","cookies","right","left","pass","http",
-    "file","buffer","set","global","signal","call","bit","host","com","root",
-    "size","stat"];
+var wordlists =
+{"e":["data","bytes","xml","emit","key","intel","pass","count","user","right","dir","stat","num","remove","status","socket","list","bit","url","http","info","get","type","call","signal","set","anon","temp","domain","cookies","log","join","write","event","ping","file","buffer","send","net","delete","ghost","poly","loop","part","port","add","point","client","com","left","system","size","val","init","reset","add","root","load","handle","upload","global","host",],
+"m":["setping","hexagon","getid","encrypt","encryptfile","eventtype","decrypt","getping","gridwidth","sizeof","gridheight","response","getfile","disconnect","datatype","process","proxy","connect","getpass","newline","getkey","loadbytes","encode","newhost","urlcheck","username","serverproxy","writefile","setnewid","generate","responder","constructor","setstats","findpackage","decryptfile","channel","number","setport","hostserver","getlog","package","account","fillgrid","vector","export","module","userport","download","listconfig","getinfo","syscall","filedir","newserver","length","thread","command","accountname","setcookie","config","server","protocol","mysql","filetype","threat","password","userid",],
+"h":["checkhttptype","uploaduserstats","disconnectserver","disconnectchannel","rootcookieset","getfirewallchannel","loadaltevent","mergesocket","getxmlprotocol","loadregisterlist","getpartoffile","tempdatapass","bufferpingset","removeoldcookie","unpacktmpfile","decryptdatabatch","systemgridtype","createnewpackage","httpbuffersize","joinnetworkclient","callmodule","createnewsocket","ghostfilesystem","create3axisvector","setnewproxy","includedirectory","encryptunpackedbatch","destroybatch","patcheventlog","loadloggedpassword","fileexpresslog","getdatapassword","dodecahedron","exportconfigpackage","sendintelpass","emitconfiglist","batchallfiles","encodenewfolder","create2axisvector","getmysqldomain","statusofprocess","blockthreat","removenewcookie","sizeofhexagon","deleteallids","changeusername","wordcounter","eventlistdir","hostnewserver","changepassword","createfilethread","respondertimeout","systemportkey","channelsetpackage","generatecodepack",],
+};
 
-var diffm =
-   ["syscall","threat","encryptfile","setcookie","userid","eventtype","findpackage","password","encrypt","response",
-    "getlog","number","accountname","package","setport","getpass","connect","listconfig","filetype","protocol",
-    "getinfo","command","module","config","userport","process","encode","filedir","datatype","setping",
-    "newserver","username","writefile","getkey","urlcheck","serverproxy","newline","thread","server","getping",
-    "setstats","gridwidth","decrypt","fillgrid","channel","generate","download","mysql","proxy","loadbytes",
-    "gridheight","account","newhost","sizeof","vector","length","getid","responder","export","setnewid",
-    "constructor","disconnect","hostserver","decryptfile","getfile","hexagon"];
-
-var diffh =
-   ["setnewproxy","blockthreat","removeoldcookie","fileexpresslog","removenewcookie","deleteallids","create2axisvector","uploaduserstats","encryptunpackedbatch","generatecodepack",
-    "getxmlprotocol","statusofprocess","ghostfilesystem","wordcounter","sizeofhexagon","checkhttptype","emitconfiglist","systemgridtype","unpacktmpfile","loadloggedpassword",
-    "respondertimeout","getmysqldomain","createnewpackage","decryptdatabatch","loadregisterlist","callmodule","encodenewfolder","eventlistdir","sendintelpass","patcheventlog",
-    "includedirectory","mergesocket","systemportkey","channelsetpackage","batchallfiles","disconnectchannel","create3axisvector","getpartoffile","createfilethread","getfirewallchannel",
-    "bufferpingset","hostnewserver","joinnetworkclient","loadaltevent","createnewsocket","tempdatapass","exportconfigpackage","disconnectserver","changeusername","rootcookieset",
-    "getdatapassword","dodecahedron","destroybatch","httpbuffersize","changepassword"]
-
-var AutoplayDelay = 20;
 window.setInterval(Autoplay, AutoplayDelay);
 var setupTimer = window.setInterval(SetupDelay, 100);
 
@@ -187,14 +166,7 @@ function GetWord () {
 
   var word = "";
 
-  if(d=="e")
-    word = diffe[wi];
-
-  if(d=="m")
-    word = diffm[wi];
-
-  if(d=="h")
-    word = diffh[wi];
+  word = wordlists[d][wi];
 
   return word;
 }
